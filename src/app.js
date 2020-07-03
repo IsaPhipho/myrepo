@@ -11,13 +11,7 @@ app.use(cors());
 const repositories = [];
 
 app.get("/repositories", (request, response) => {
-  const { title } = request.query;
-
-  const results = title
-    ? repositories.filter(repository => repository.title.includes(title))
-    : repositories;
-
-  return response.json(results);
+  return response.json(repositories);
 });
 
 app.post("/repositories", (request, response) => {
@@ -82,11 +76,9 @@ app.post("/repositories/:id/like", (request, response) => {
     return response.status(400).json({ message: 'Repository does not exist.' });
   };
 
-  const repository = repositories[repositoryIndex]
+  repositories[repositoryIndex].likes ++;
 
-  repository.likes ++;
-
-  return response.json(repository);
+  return response.json(repositories[repositoryIndex]);
 });
 
 module.exports = app;
